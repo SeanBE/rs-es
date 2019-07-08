@@ -84,7 +84,7 @@ pub struct ActionOptions {
         skip_serializing_if = "ShouldSkip::should_skip"
     )]
     version_type: Option<VersionType>,
-    #[serde(rename = "_routing", skip_serializing_if = "ShouldSkip::should_skip")]
+    #[serde(skip_serializing_if = "ShouldSkip::should_skip")]
     routing: Option<String>,
     #[serde(rename = "_parent", skip_serializing_if = "ShouldSkip::should_skip")]
     parent: Option<String>,

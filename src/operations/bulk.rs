@@ -86,6 +86,8 @@ pub struct ActionOptions {
     version_type: Option<VersionType>,
     #[serde(skip_serializing_if = "ShouldSkip::should_skip")]
     routing: Option<String>,
+    #[serde(rename = "_routing", skip_serializing_if = "ShouldSkip::should_skip")]
+    _routing: Option<String>,
     #[serde(rename = "_parent", skip_serializing_if = "ShouldSkip::should_skip")]
     parent: Option<String>,
     #[serde(rename = "_timestamp", skip_serializing_if = "ShouldSkip::should_skip")]
@@ -166,6 +168,14 @@ impl<S> Action<S> {
         )
     }
 
+    pub fn with_routing(mut self, val: String, use_underscore: bool) -> Self {
+        match use_underscore {
+            true => self.0.inner._routing = Some(val),
+            false => self.0.inner.routing = Some(val)
+        };
+        self
+    }
+
     // TODO - implement update
 
     add_inner_field!(with_index, index, String);
@@ -173,7 +183,6 @@ impl<S> Action<S> {
     add_inner_field!(with_id, id, String);
     add_inner_field!(with_version, version, u64);
     add_inner_field!(with_version_type, version_type, VersionType);
-    add_inner_field!(with_routing, routing, String);
     add_inner_field!(with_parent, parent, String);
     add_inner_field!(with_timestamp, timestamp, String);
     add_inner_field!(with_ttl, ttl, Duration);
